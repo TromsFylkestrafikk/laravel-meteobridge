@@ -35,6 +35,8 @@ class MeteobridgeCreateTables extends Migration
             $table->integer('direction');
             $table->float('rain_rate', 6, 2);
             $table->float('rain_total', 6, 2);
+            $table->smallInteger('uv_index');
+            $table->integer('radiation');
         });
     }
 
@@ -46,5 +48,6 @@ class MeteobridgeCreateTables extends Migration
     public function down()
     {
         Schema::dropIfExists('meteobridge_stations');
+        Schema::dropIfExists('meteobridge_weather');
     }
 }
