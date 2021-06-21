@@ -21,13 +21,13 @@
     },
     "autoload": {
         "psr-4": {
-            "TromsFylkestrafikk\\Siri\\": "src/"
+            "TromsFylkestrafikk\\Meteobridge\\": "src/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "TromsFylkestrafikk\\Siri\\MeteobridgeServiceProvider"
+                "TromsFylkestrafikk\\Meteobridge\\MeteobridgeServiceProvider"
             ]
         }
     },
