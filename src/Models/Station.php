@@ -10,5 +10,6 @@ class Station extends Model
     use HasFactory;
 
     protected $table = 'meteobridge_stations';
-    protected $guarded = ['id', 'uuid'];
+    protected $keyType = 'string';
+    protected $guarded = ['uuid'];
 }

@@ -14,20 +14,20 @@ class MeteobridgeCreateTables extends Migration
     public function up()
     {
         Schema::create('meteobridge_stations', function (Blueprint $table) {
-            $table->id();
-            $table->string('uuid', 512)->index();
+            $table->char('id', 48)->id();
             $table->string('name', 256)->nullable();
-            $table->string('hardware', 256)->nullable();
+            $table->string('station', 256)->nullable();
             $table->string('ip', 256)->nullable();
+            $table->char('mac', 18)->nullable()->comment("Meteobridge MAC address");
+            $table->string('mb_version', 16)->nullable()->comment("Meteobridge software version");
             $table->float('latitude', 9, 5)->nullable();
             $table->float('longitude', 9, 5)->nullable();
             $table->timestamps();
         });
 
-        Schema::create('meteobridge_data', function (Blueprint $table) {
-            $table->id();
-            $table->integer('station');
-            $table->timestamp('timestamp')->unique();
+        Schema::create('meteobridge_observations', function (Blueprint $table) {
+            $table->timestamp('timestamp')->id();
+            $table->char('station', 48)->index();
             $table->float('temp', 5, 2);
             $table->float('humidity', 6, 2);
             $table->float('pressure', 7, 2);
@@ -50,6 +50,6 @@ class MeteobridgeCreateTables extends Migration
     public function down()
     {
         Schema::dropIfExists('meteobridge_stations');
-        Schema::dropIfExists('meteobridge_data');
+        Schema::dropIfExists('meteobridge_observations');
     }
 }

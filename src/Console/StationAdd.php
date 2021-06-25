@@ -14,8 +14,9 @@ class StationAdd extends Command
      * @var string
      */
     protected $signature = 'meteobridge:add
-                           { --N|name= : Name / placement on station }
-                           { --H|hardware= : What hardware this station has }
+                           { --N|name= : Station name }
+                           { --s|station= : What hardware this station has }
+                           { --m|mac= : Meteobridge MAC address }
                            { --a|latitude= : Latitude of station }
                            { --o|longitude= : Longitude of station }
                            { --hash : Create hash used for authorized data push } ';
@@ -47,7 +48,7 @@ class StationAdd extends Command
         $this->info("Adding new weather station");
         $station = $this->aquireStationData();
         $station->save();
-        $this->info(sprintf("New station added with ID: %s", $station->uuid));
+        $this->info(sprintf("New station added with ID: %s", $station->id));
         return 0;
     }
 
@@ -57,10 +58,11 @@ class StationAdd extends Command
         $confirmed = false;
         while (!$confirmed) {
             $station->fill([
-                'name' => $this->cliOrAsk('name', "Station name"),
-                'hardware' => $this->cliOrAsk('hardware', "Station hardware"),
-                'latitude' => floatval($this->cliOrAsk('latitude', "Latitude")),
-                'longitude' => $this->cliOrAsk('longitude', "Longitude"),
+                'name' => $this->cliOrAsk('name', "Station name", true),
+                'station' => $this->cliOrAsk('station', "Station name and model"),
+                'mac' => $this->cliOrAsk('mac', "Meteobridge MAC address"),
+                'latitude' => floatval($this->cliOrAsk('latitude', "Latitude", true)),
+                'longitude' => floatval($this->cliOrAsk('longitude', "Longitude", true)),
             ]);
             $confirmed = $this->confirm(sprintf(
                 "Creating a new station with the following params:\n\t name: %s\n\t hardware: %s\n\t lat/lng: [%2.5f, %2.5f]\n\n Is this correct?",
@@ -70,17 +72,23 @@ class StationAdd extends Command
                 $station->longitude
             ), true);
         }
-        $station->uuid =  Uuid::uuid4();
+        $station->id =  Uuid::uuid4();
         if ($this->option('hash')) {
             $station->hash = uniqid("", true);
         }
         return $station;
     }
 
-    protected function cliOrAsk($param, $question)
+    protected function cliOrAsk($param, $question, $required = false)
     {
         if ($this->option($param)) {
             return $this->option($param);
+        }
+        while ($required) {
+            $value = $this->ask($question . ' *');
+            if ($value) {
+                return $value;
+            }
         }
         return $this->ask($question);
     }
