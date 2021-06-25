@@ -26,8 +26,8 @@ class MeteobridgeCreateTables extends Migration
 
         Schema::create('meteobridge_data', function (Blueprint $table) {
             $table->id();
-            $table->timestamp('timestamp');
             $table->integer('station');
+            $table->timestamp('timestamp')->unique();
             $table->float('temp', 5, 2);
             $table->float('humidity', 6, 2);
             $table->float('pressure', 7, 2);
