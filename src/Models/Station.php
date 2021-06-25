@@ -11,5 +11,5 @@ class Station extends Model
 
     protected $table = 'meteobridge_stations';
     protected $keyType = 'string';
-    protected $guarded = ['uuid'];
+    protected $guarded = ['id'];
 }

@@ -46,13 +46,13 @@ class StationAdd extends Command
     public function handle()
     {
         $this->info("Adding new weather station");
-        $station = $this->aquireStationData();
+        $station = $this->aquireStationInfo();
         $station->save();
         $this->info(sprintf("New station added with ID: %s", $station->id));
         return 0;
     }
 
-    protected function aquireStationData(): Station
+    protected function aquireStationInfo(): Station
     {
         $station = new Station();
         $confirmed = false;
@@ -65,9 +65,9 @@ class StationAdd extends Command
                 'longitude' => floatval($this->cliOrAsk('longitude', "Longitude", true)),
             ]);
             $confirmed = $this->confirm(sprintf(
-                "Creating a new station with the following params:\n\t name: %s\n\t hardware: %s\n\t lat/lng: [%2.5f, %2.5f]\n\n Is this correct?",
+                "Creating a new station with the following params:\n\t Name: %s\n\t Station: %s\n\t Lat/Lng: [%2.5f, %2.5f]\n\n Is this correct?",
                 $station->name,
-                $station->hardware,
+                $station->station,
                 $station->latitude,
                 $station->longitude
             ), true);
