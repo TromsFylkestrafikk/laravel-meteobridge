@@ -14,7 +14,7 @@ class MeteobridgeCreateTables extends Migration
     public function up()
     {
         Schema::create('meteobridge_stations', function (Blueprint $table) {
-            $table->char('id', 48)->id();
+            $table->char('id', 48)->primary();
             $table->string('name', 256)->nullable();
             $table->string('station', 256)->nullable();
             $table->string('ip', 256)->nullable();
@@ -26,7 +26,7 @@ class MeteobridgeCreateTables extends Migration
         });
 
         Schema::create('meteobridge_observations', function (Blueprint $table) {
-            $table->timestamp('timestamp')->id();
+            $table->timestamp('timestamp')->primary();
             $table->char('station', 48)->index();
             $table->float('temp', 5, 2);
             $table->float('humidity', 6, 2);
