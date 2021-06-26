@@ -19,7 +19,8 @@ class StationAdd extends Command
                            { --m|mac= : Meteobridge MAC address }
                            { --a|latitude= : Latitude of station }
                            { --o|longitude= : Longitude of station }
-                           { --hash : Create hash used for authorized data push } ';
+                           { --hash : Create hash used for authorized data push }
+                           { --f|force : Don\'t ask for confirmation }';
 
     /**
      * The console command description.
@@ -71,6 +72,9 @@ class StationAdd extends Command
                 $station->latitude,
                 $station->longitude
             ), true);
+            if ($confirmed) {
+                $confirmed = $this->confirmCreateIfExists($station);
+            }
         }
         $station->id =  Uuid::uuid4();
         if ($this->option('hash')) {
@@ -79,11 +83,21 @@ class StationAdd extends Command
         return $station;
     }
 
+    protected function confirmCreateIfExists(Station $station)
+    {
+        $existing = Station::where('name', $station->name)->first();
+        return $existing ? $this->confirm(
+            "An existing station with the same name already exists.\n Really create new? (Abort with ^C if provided with --name)",
+            false
+        ) : true;
+    }
+
     protected function cliOrAsk($param, $question, $required = false)
     {
         if ($this->option($param)) {
             return $this->option($param);
         }
+        $force = $this->option('force');
         while ($required) {
             $value = $this->ask($question . ' *');
             if ($value) {
