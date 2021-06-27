@@ -20,8 +20,8 @@ class MeteobridgeCreateTables extends Migration
             $table->string('ip', 256)->nullable();
             $table->char('mac', 18)->nullable()->comment("Meteobridge MAC address");
             $table->string('mb_version', 16)->nullable()->comment("Meteobridge software version");
-            $table->float('latitude', 9, 5)->nullable();
-            $table->float('longitude', 9, 5)->nullable();
+            $table->float('latitude', 12, 8)->nullable();
+            $table->float('longitude', 12, 8)->nullable();
             $table->timestamps();
         });
 

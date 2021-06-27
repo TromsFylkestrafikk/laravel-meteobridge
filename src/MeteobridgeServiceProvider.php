@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use TromsFylkestrafikk\Meteobridge\Console\StationAdd;
+use TromsFylkestrafikk\Meteobridge\Console\StationDelete;
 use TromsFylkestrafikk\Meteobridge\Console\StationList;
 
 class MeteobridgeServiceProvider extends ServiceProvider
@@ -33,6 +34,7 @@ class MeteobridgeServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->commands([
                 StationAdd::class,
+                StationDelete::class,
                 StationList::class,
             ]);
         }

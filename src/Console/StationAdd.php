@@ -2,6 +2,7 @@
 
 namespace TromsFylkestrafikk\Meteobridge\Console;
 
+use Exception;
 use Illuminate\Console\Command;
 use Ramsey\Uuid\Uuid;
 use TromsFylkestrafikk\Meteobridge\Models\Station;
@@ -14,13 +15,13 @@ class StationAdd extends Command
      * @var string
      */
     protected $signature = 'meteobridge:add
-                           { --N|name= : Station name }
+                           { --N|name= : Station name (*) }
                            { --s|station= : What hardware this station has }
                            { --m|mac= : Meteobridge MAC address }
-                           { --a|latitude= : Latitude of station }
-                           { --o|longitude= : Longitude of station }
+                           { --a|latitude= : Latitude of station (*) }
+                           { --o|longitude= : Longitude of station (*) }
                            { --hash : Create hash used for authorized data push }
-                           { --f|force : Don\'t ask for confirmation }';
+                           { --f|force : Force add even if exists. Missing fields becomes NULL. }';
 
     /**
      * The console command description.
@@ -65,6 +66,9 @@ class StationAdd extends Command
                 'latitude' => floatval($this->cliOrAsk('latitude', "Latitude", true)),
                 'longitude' => floatval($this->cliOrAsk('longitude', "Longitude", true)),
             ]);
+            if ($this->option('force')) {
+                break;
+            }
             $confirmed = $this->confirm(sprintf(
                 "Creating a new station with the following params:\n\t Name: %s\n\t Station: %s\n\t Lat/Lng: [%2.5f, %2.5f]\n\n Is this correct?",
                 $station->name,
@@ -99,10 +103,16 @@ class StationAdd extends Command
         }
         $force = $this->option('force');
         while ($required) {
+            if ($force) {
+                throw new Exception("Missing required values when using --force");
+            }
             $value = $this->ask($question . ' *');
             if ($value) {
                 return $value;
             }
+        }
+        if ($force) {
+            return null;
         }
         return $this->ask($question);
     }

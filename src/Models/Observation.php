@@ -10,4 +10,6 @@ class Observation extends Model
     use HasFactory;
 
     protected $table = 'meteobridge_observations';
+    public $incrementing = false;
+    protected $keyType = 'string';
 }
