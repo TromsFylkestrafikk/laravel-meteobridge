@@ -4,26 +4,30 @@ namespace TromsFylkestrafikk\Meteobridge\Console;
 
 use Illuminate\Console\Command;
 use TromsFylkestrafikk\Meteobridge\Models\Station;
-use TromsFylkestrafikk\Meteobridge\Models\Observation;
 
-class StationDelete extends Command
+class StationSetParam extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'meteobridge:del
+    protected $signature = 'meteobridge:set
                            { id : Station ID }
-                           { --o|observations : Delete weather observations too }
-                           { --f|force : Force delete }';
+                           { param : Station parameter to set }
+                           { value : Parameter value }';
+
+    /**
+     * List of model properties that may be overridden.
+     */
+    protected $params = ['name', 'station', 'ip', 'mac', 'mb_version', 'latitude', 'longitude'];
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Delete station';
+    protected $description = 'Set meteobridge station parameters';
 
     /**
      * Create a new command instance.
@@ -47,21 +51,14 @@ class StationDelete extends Command
             $this->error("Station not found: " . $this->argument('id'));
             return 1;
         }
-        if (
-            !$this->option('force') && !$this->confirm(sprintf(
-                "Really delete station '%s' with id %s",
-                $station->name,
-                $station->id
-            ), false)
-        ) {
-            $this->info("Deletion aborted");
-            return 0;
+        $param = $this->argument('param');
+        if (!in_array($this->argument('param'), $this->params)) {
+            $this->error("Invalid parameter: " . $param);
+            return 1;
         }
-        if ($this->option('observations')) {
-            Observation::where('station', $station->id)->delete();
-        }
-        $station->delete();
-        $this->info("Successfully deleted station " . $station->name);
+        $station->{$param} = $this->argument('value');
+        $station->save();
+        $this->info(sprintf("Updated station %s with %s = '%s'", $station->id, $param, $this->argument('value')));
         return 0;
     }
 }
