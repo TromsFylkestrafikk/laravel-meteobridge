@@ -17,4 +17,9 @@ class Station extends Model
         'created_at' => 'datetime:Y-m-d H:i:s',
         'updated_at' => 'datetime:Y-m-d H:i:s',
     ];
+
+    public function observations()
+    {
+        return $this->hasMany(Observation::class);
+    }
 }

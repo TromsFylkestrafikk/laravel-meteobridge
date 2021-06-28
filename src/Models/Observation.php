@@ -10,6 +10,16 @@ class Observation extends Model
     use HasFactory;
 
     protected $table = 'meteobridge_observations';
+    protected $primaryKey = 'timestamp';
     public $incrementing = false;
     protected $keyType = 'string';
+    public $timestamps = false;
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function station()
+    {
+        return $this->belongsTo(Station::class);
+    }
 }

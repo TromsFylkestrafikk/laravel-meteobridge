@@ -15,6 +15,20 @@ class StationHttpTemplate extends Command
     protected $signature = 'meteobridge:http-template
                            { id : Station ID }';
 
+    protected $argMap = [
+        'temp' => 'th0temp-act.2:--',
+        'humidity' => 'th0hum-act.1:--',
+        'pressure' => 'thb0press-act.2:--',
+        'pressure_sea' => 'thb0seapress-act.2:--',
+        'wind' => 'wind0wind-act.2:--',
+        'wind_avg' => 'wind0avgwind-act.2:--',
+        'direction' => 'wind0dir-act.0:--',
+        'rain_rate' => 'rain0rate-act.2:--',
+        'rain_total' => 'rain0total-daysum:.2:--',
+        'uv_index' => 'uv0index-act.0:--',
+        'radiation' => 'sol0rad-act:0:--',
+    ];
+
     /**
      * The console command description.
      *
@@ -44,7 +58,12 @@ class StationHttpTemplate extends Command
             $this->error("Station not found: " . $this->argument('id'));
             return 1;
         }
-        $this->info(url('meteobridge/observation'));
+        $base = route('meteobridge.observe', ['station' => $station->id]);
+        $args = [];
+        foreach ($this->argMap as $arg => $template) {
+            $args[] = sprintf("%s=[%s]", $arg, $template);
+        }
+        $this->line($base . '?' . implode('&', $args));
         return 0;
     }
 }

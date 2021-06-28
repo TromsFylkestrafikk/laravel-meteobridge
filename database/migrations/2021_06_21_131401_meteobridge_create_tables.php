@@ -26,19 +26,21 @@ class MeteobridgeCreateTables extends Migration
         });
 
         Schema::create('meteobridge_observations', function (Blueprint $table) {
-            $table->timestamp('timestamp')->primary();
-            $table->char('station', 48)->index();
-            $table->float('temp', 5, 2);
-            $table->float('humidity', 6, 2);
-            $table->float('pressure', 7, 2);
-            $table->float('sea_pressure', 7, 2);
-            $table->float('wind', 6, 2);
-            $table->float('wind_avg', 6, 2);
-            $table->integer('direction');
-            $table->float('rain_rate', 6, 2);
-            $table->float('rain_total', 6, 2);
-            $table->smallInteger('uv_index');
-            $table->integer('radiation');
+            $table->id();
+            $table->char('station_id', 48);
+            $table->dateTime('timestamp');
+            $table->float('temp', 5, 2)->nullable();
+            $table->float('humidity', 6, 2)->nullable();
+            $table->float('pressure', 7, 2)->nullable();
+            $table->float('pressure_sea', 7, 2)->nullable();
+            $table->float('wind', 6, 2)->nullable();
+            $table->float('wind_avg', 6, 2)->nullable();
+            $table->integer('direction')->nullable();
+            $table->float('rain_rate', 6, 2)->nullable();
+            $table->float('rain_total', 6, 2)->nullable();
+            $table->smallInteger('uv_index')->nullable();
+            $table->integer('radiation')->nullable();
+            $table->unique(['timestamp', 'station_id'], 'meteobridge_observations__station_timestamp_index');
         });
     }
 
