@@ -21,9 +21,10 @@ Add require entry:
 composer require tromsfylkestrafikk/laravel-meteobridge
 ```
 
-Run migrations:
+Run migrations and import configuration.
 ```shell
 php artisan migrate
+php artisan vendor:publish --provider=TromsFylkestrafikk\\Meteobridge\\MeteobridgeServiceprovider --tag=config
 ```
 
 ## Usage
