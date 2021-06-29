@@ -18,20 +18,28 @@ class StationHttpTemplate extends Command
     /**
      * Map between db/model property and meteobridge template equivalent.
      *
+     * The macros should include everything up to :replacement, as this is
+     * handled during template generation. I.e, the values should have the
+     * format:
+     *
+     *     sensor-selector=converter.decimals
+     *
+     * @see https://www.meteobridge.com/wiki/index.php/Templates
+     *
      * @var string[]
      */
     protected $argMap = [
-        'temp' => 'th0temp-act.2:--',
-        'humidity' => 'th0hum-act.1:--',
-        'pressure' => 'thb0press-act.2:--',
-        'pressure_sea' => 'thb0seapress-act.2:--',
-        'wind' => 'wind0wind-act.2:--',
-        'wind_avg' => 'wind0avgwind-act.2:--',
-        'direction' => 'wind0dir-act.0:--',
-        'rain_rate' => 'rain0rate-act.2:--',
-        'rain_total' => 'rain0total-daysum:.2:--',
-        'uv_index' => 'uv0index-act.0:--',
-        'radiation' => 'sol0rad-act:0:--',
+        'temp' => 'th0temp-act.2',
+        'humidity' => 'th0hum-act.1',
+        'pressure' => 'thb0press-act.2',
+        'pressure_sea' => 'thb0seapress-act.2',
+        'wind' => 'wind0wind-act.2',
+        'wind_avg' => 'wind0avgwind-act.2',
+        'direction' => 'wind0dir-act.0',
+        'rain_rate' => 'rain0rate-act.2',
+        'rain_total' => 'rain0total-daysum.2',
+        'uv_index' => 'uv0index-act.0',
+        'radiation' => 'sol0rad-act.0',
     ];
 
     /**
@@ -64,11 +72,11 @@ class StationHttpTemplate extends Command
             return 1;
         }
         $base = route('meteobridge.observe', ['station' => $station->id]);
-        $args = [];
+        $args = ['timestamp=[YYYY]-[MM]-[DD]T[hh]:[mm]:[ss]'];
         foreach ($this->argMap as $arg => $template) {
-            $args[] = sprintf("%s=[%s]", $arg, $template);
+            $args[] = sprintf("#if#{*[%s:-9999]!=-9999*}#then#&%s=[%s]#else##fi#", $template, $arg, $template);
         }
-        $this->line($base . '?' . implode('&', $args));
+        $this->line($base . '?' . implode("", $args));
         return 0;
     }
 }
