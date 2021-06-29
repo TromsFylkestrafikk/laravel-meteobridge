@@ -70,9 +70,10 @@ class StationAdd extends Command
                 break;
             }
             $confirmed = $this->confirm(sprintf(
-                "Creating a new station with the following params:\n\t Name: %s\n\t Station: %s\n\t Lat/Lng: [%2.5f, %2.5f]\n\n Is this correct?",
+                "Creating a new station with the following params:\n\t Name: %s\n\t Station: %s\n\t MAC: %s\n\t Lat/Lng: [%2.5f, %2.5f]\n\n Is this correct?",
                 $station->name,
                 $station->station,
+                $station->mac,
                 $station->latitude,
                 $station->longitude
             ), true);

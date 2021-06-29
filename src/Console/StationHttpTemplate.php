@@ -15,6 +15,11 @@ class StationHttpTemplate extends Command
     protected $signature = 'meteobridge:http-template
                            { id : Station ID }';
 
+    /**
+     * Map between db/model property and meteobridge template equivalent.
+     *
+     * @var string[]
+     */
     protected $argMap = [
         'temp' => 'th0temp-act.2:--',
         'humidity' => 'th0hum-act.1:--',
