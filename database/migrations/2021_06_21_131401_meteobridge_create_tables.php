@@ -34,7 +34,9 @@ class MeteobridgeCreateTables extends Migration
             $table->float('pressure', 7, 2)->nullable();
             $table->float('pressure_sea', 7, 2)->nullable();
             $table->float('wind', 6, 2)->nullable();
-            $table->float('wind_avg', 6, 2)->nullable();
+            $table->float('wind_avg', 6, 2)->nullable()->comment("Average wind since last report");
+            $table->float('wind_min', 6, 2)->nullable()->comment("Minimum wind since last report");
+            $table->float('wind_max', 6, 2)->nullable()->comment("Maximum wind (gust) since last report");
             $table->integer('direction')->nullable();
             $table->float('rain_rate', 6, 2)->nullable();
             $table->float('rain_total', 6, 2)->nullable();
