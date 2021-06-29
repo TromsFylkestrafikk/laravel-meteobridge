@@ -49,6 +49,17 @@ URL input field, or save it on your pro/nano device under
 /tmp/mnt/data/templates as a *.url file. This saved file will then be
 selectable during HTTP GET event creation.
 
+The interval between requests must match the `--interval=` option, as
+this aggregates min, max and avg values between sent observations.
+It's recommended to use one of these intervals:
+
+- on every started minute
+- every full 5 minutes
+- every full 10 minutes
+- every full 15 minutes
+
+This asserts aggregations not to overlap or miss data between requests.
+
 ## Copying
 
 Laravel Meteobridge is free software: you can redistribute it and/or
