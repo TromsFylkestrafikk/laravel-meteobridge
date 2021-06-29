@@ -1,6 +1,7 @@
 # Laravel Meteobridge
 
-Feed laravel with weather data from meteobridge devices.
+Feed laravel with weather data from meteobridge devices using HTTP GET
+requests.
 
 ## Install
 
@@ -36,6 +37,17 @@ operations for stations are:
 - `php artisan meteobridge:set` Set station parameters
 - `php artisan meteobridge:del` Delete station (with or without
   observations)
+  
+Create the Meteobridge HTTP template used to feed your site with
+```shell
+php artisan meteobridge:http-template
+```
+
+Then set up a periodical HTTP GET event in Meteobridge under
+Services/Events. The created URL can either be used verbatim in the
+URL input field, or save it on your pro/nano device under
+/tmp/mnt/data/templates as a *.url file. This saved file will then be
+selectable during HTTP GET event creation.
 
 ## Copying
 

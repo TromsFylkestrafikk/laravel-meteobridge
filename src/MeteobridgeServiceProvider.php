@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use TromsFylkestrafikk\Meteobridge\Console\StationAdd;
 use TromsFylkestrafikk\Meteobridge\Console\StationDelete;
+use TromsFylkestrafikk\Meteobridge\Console\StationHttpTemplate;
 use TromsFylkestrafikk\Meteobridge\Console\StationList;
 use TromsFylkestrafikk\Meteobridge\Console\StationSetParam;
 
@@ -47,6 +48,7 @@ class MeteobridgeServiceProvider extends ServiceProvider
             $this->commands([
                 StationAdd::class,
                 StationDelete::class,
+                StationHttpTemplate::class,
                 StationList::class,
                 StationSetParam::class,
             ]);
