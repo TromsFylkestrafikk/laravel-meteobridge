@@ -77,7 +77,11 @@ class StationHttpTemplate extends Command
         $base = route('meteobridge.observe', ['station' => $station->id]);
         $args = ['timestamp=[YYYY]-[MM]-[DD]T[hh]:[mm]:[ss]'];
         foreach ($this->argMap as $arg => $template) {
-            $args[] = sprintf("#if#{*[%s:-9999]!=-9999*}#then#&%s=[%s]#else##fi#", $template, $arg, $template);
+            $args[] = $this->macroIfThenElse(
+                sprintf("{*[%s:-9999]!=-9999*}", $template),
+                sprintf("&%s=[%s]", $arg, $template),
+                ''
+            );
         }
         $this->line($base . '?' . implode("", $args));
         return 0;
@@ -99,5 +103,13 @@ class StationHttpTemplate extends Command
         $this->argMap['wind_min'] = "wind0wind-min{$interval}.2";
         $this->argMap['wind_avg'] = "wind0wind-avg{$interval}.2";
         return true;
+    }
+
+    /**
+     * Wrapper around the if/then/else syntax in Metrobridge templates.
+     */
+    protected function macroIfThenElse($test, $thenVal, $elseVal = '')
+    {
+        return sprintf("#if#%s#then#%s#else#%s#fi#", $test, $thenVal, $elseVal);
     }
 }
