@@ -51,6 +51,9 @@ class StationAdd extends Command
         $station = $this->aquireStationInfo();
         $station->save();
         $this->info(sprintf("New station added with ID: %s", $station->id));
+        if ($this->option('hash')) {
+            $this->info(sprintf("Authentication hash: %s", $station->hash));
+        }
         return 0;
     }
 
@@ -83,7 +86,7 @@ class StationAdd extends Command
         }
         $station->id =  Uuid::uuid4();
         if ($this->option('hash')) {
-            $station->hash = uniqid("", true);
+            $station->hash = sha1(uniqid("", true));
         }
         return $station;
     }

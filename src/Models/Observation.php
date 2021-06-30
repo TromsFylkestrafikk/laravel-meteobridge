@@ -10,10 +10,8 @@ class Observation extends Model
     use HasFactory;
 
     protected $table = 'meteobridge_observations';
-    protected $primaryKey = 'timestamp';
-    public $incrementing = false;
-    protected $keyType = 'string';
     public $timestamps = false;
+    protected $guarded = ['id', 'station_id'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
