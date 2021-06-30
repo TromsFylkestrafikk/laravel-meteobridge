@@ -39,7 +39,7 @@ class MeteobridgeCreateTables extends Migration
             $table->float('wind_max', 6, 2)->nullable()->comment("Maximum wind (gust) since last report");
             $table->integer('direction')->nullable();
             $table->float('rain_rate', 6, 2)->nullable();
-            $table->float('rain_total', 6, 2)->nullable();
+            $table->float('rain_total', 6, 2)->nullable()->comment("Total precipitation for current day");
             $table->smallInteger('uv_index')->nullable();
             $table->integer('radiation')->nullable();
             $table->unique(['timestamp', 'station_id'], 'meteobridge_observations__station_timestamp_index');
