@@ -74,7 +74,7 @@ class StationHttpTemplate extends Command
         if (!$this->generateIntervalMacros()) {
             return 1;
         }
-        $base = route('meteobridge.observe', ['station' => $station->id]);
+        $base = route('meteobridge.observation', ['station' => $station->id, 'hash' => $station->hash ?: 'none']);
         $args = ['timestamp=[YYYY]-[MM]-[DD]T[hh]:[mm]:[ss]'];
         foreach ($this->argMap as $arg => $template) {
             $args[] = $this->macroIfThenElse(

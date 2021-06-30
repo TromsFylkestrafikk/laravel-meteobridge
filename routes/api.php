@@ -3,4 +3,4 @@
 use Illuminate\Support\Facades\Route;
 use TromsFylkestrafikk\Meteobridge\Http\Controllers\ObservationController;
 
-Route::get('observe/{station}', [ObservationController::class, 'register'])->name('meteobridge.observe');
+Route::get('observation/{station}/{hash}', [ObservationController::class, 'register'])->name('meteobridge.observation');

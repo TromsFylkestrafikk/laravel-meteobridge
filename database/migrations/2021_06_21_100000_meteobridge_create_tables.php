@@ -22,6 +22,7 @@ class MeteobridgeCreateTables extends Migration
             $table->string('mb_version', 16)->nullable()->comment("Meteobridge software version");
             $table->float('latitude', 12, 8)->nullable();
             $table->float('longitude', 12, 8)->nullable();
+            $table->char('hash', 48)->nullable();
             $table->timestamps();
         });
 
