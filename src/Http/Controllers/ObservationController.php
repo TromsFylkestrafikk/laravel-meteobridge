@@ -14,8 +14,12 @@ class ObservationController extends Controller
      * @param  \TromsFylkestrafikk\Meteobridge\Models\Station  $station
      * @return \Illuminate\Http\Response
      */
-    public function register(Station $station)
+    public function register(Request $request, Station $station)
     {
+        $observation = new Observation();
+        $observation->station_id = $station->id;
+        $observation->fill($request->query());
+        $observation->save();
         return response('Success');
     }
 }

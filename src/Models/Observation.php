@@ -14,6 +14,7 @@ class Observation extends Model
     public $incrementing = false;
     protected $keyType = 'string';
     public $timestamps = false;
+    protected $guarded = ['id', 'station_id'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
