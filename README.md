@@ -41,14 +41,15 @@ operations for stations are:
 
 See the individual command's help for further documentation.
 
-When creating new stations it's recommended to also add an
-authentication hash to it:
+If data is sent over a public network, make sure its run over https,
+and add a password hash on your site:
+
 ```shell
 php artisan meteobridge:add --hash
 ```
 
-It is strongly recommended that your site runs over https, as this
-hash is sent on all requests.
+This can be added, removed or changed later using the
+`meteobridge:hash` command.
 
 ### Set up Meteobridge periodical HTTP request events
 
@@ -65,11 +66,11 @@ php artisan meteobridge:http-template <station-id>
 ```
 
 This generated URL can be used verbatim in the Meteobridge event URL
-input field, or save it on your pro/nano device under
-/tmp/mnt/data/templates as a *.url file.  Using a .url file will make
+input field, or saved it on your pro/nano device under
+`/tmp/mnt/data/templates` as a `*.url` file.  Using a `.url` file will make
 this file selectable during event creation/editing.
 
-**Note** If using .url file, it must NOT contain newlines.
+**Note:** If using `.url` file, it must NOT contain newlines.
 
 The interval between requests must match the `--interval=` option, as
 this aggregates min, max and avg values between sent observations.
