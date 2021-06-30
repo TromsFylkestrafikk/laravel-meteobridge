@@ -30,6 +30,7 @@ php artisan vendor:publish --provider=TromsFylkestrafikk\\Meteobridge\\Meteobrid
 
 ## Usage
 
+### Managing stations
 Stations are managed through artisan cli interface. The basic CRUD
 operations for stations are:
 - `php artisan meteobridge:add` Add a new station
@@ -37,17 +38,38 @@ operations for stations are:
 - `php artisan meteobridge:set` Set station parameters
 - `php artisan meteobridge:del` Delete station (with or without
   observations)
-  
-Create the Meteobridge HTTP template used to feed your site with
+
+See the individual command's help for further documentation.
+
+When creating new stations it's recommended to also add an
+authentication hash to it:
 ```shell
-php artisan meteobridge:http-template
+php artisan meteobridge:add --hash
 ```
 
-Then set up a periodical HTTP GET event in Meteobridge under
-Services/Events. The created URL can either be used verbatim in the
-URL input field, or save it on your pro/nano device under
-/tmp/mnt/data/templates as a *.url file. This saved file will then be
-selectable during HTTP GET event creation.
+It is strongly recommended that your site runs over https, as this
+hash is sent on all requests.
+
+### Set up Meteobridge periodical HTTP request events
+
+To feed your Laravel site with observations from a Meteobridge
+station, set up a periodical HTTP Request event under Services →
+Events.  The URL to your Laravel installation has the form:
+
+```
+<scheme>://<host>/meteobridge/observation/<station-id>/<authentication-hash>?[param1=value1][&param2=value2]...
+```
+To help building this URL, use the following command:
+```shell
+php artisan meteobridge:http-template <station-id>
+```
+
+This generated URL can be used verbatim in the Meteobridge event URL
+input field, or save it on your pro/nano device under
+/tmp/mnt/data/templates as a *.url file.  Using a .url file will make
+this file selectable during event creation/editing.
+
+**Note** If using .url file, it must NOT contain newlines.
 
 The interval between requests must match the `--interval=` option, as
 this aggregates min, max and avg values between sent observations.
