@@ -2,10 +2,10 @@
 
 namespace TromsFylkestrafikk\Meteobridge\Http\Controllers;
 
-use TromsFylkestrafikk\Meteobridge\Models\Station;
-use TromsFylkestrafikk\Meteobridge\Models\Observation;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use TromsFylkestrafikk\Meteobridge\Models\Station;
+use TromsFylkestrafikk\Meteobridge\Models\Observation;
 
 class ObservationController extends Controller
 {
@@ -23,7 +23,10 @@ class ObservationController extends Controller
         $observation = new Observation();
         $observation->station_id = $station->id;
         $observation->fill($request->query());
-        $observation->save();
+        $success = $observation->save();
+        if (!$success) {
+            return response("Failed to save observation", Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
         // Use 'updated_at' column as indication of last communication with
         // station.
         $station->touch();
