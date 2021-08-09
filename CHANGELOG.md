@@ -11,3 +11,4 @@
   between intervals are aggregated and submitted along with latest
   observation.
 - Added station authentication hash for weather observation requests.
+- Observation are broadcasted using model broadcasting.
