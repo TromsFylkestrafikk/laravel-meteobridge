@@ -58,7 +58,7 @@ class StationSetParam extends Command
         }
         $station->{$param} = $this->argument('value');
         $station->save();
-        $this->info(sprintf("Updated station %s with %s = '%s'", $station->id, $param, $this->argument('value')));
+        $this->info(sprintf("Updated station %d with %s = '%s'", $station->id, $param, $this->argument('value')));
         return 0;
     }
 }

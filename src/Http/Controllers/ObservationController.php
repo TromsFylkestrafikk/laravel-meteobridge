@@ -4,6 +4,7 @@ namespace TromsFylkestrafikk\Meteobridge\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Log;
 use TromsFylkestrafikk\Meteobridge\Models\Station;
 use TromsFylkestrafikk\Meteobridge\Models\Observation;
 
@@ -18,6 +19,7 @@ class ObservationController extends Controller
     public function register(Request $request, Station $station, $hash)
     {
         if ($station->hash && $station->hash !== $hash) {
+            Log::notice("Meteobridge observation: Authentication failed");
             return response("Authentication failed", Response::HTTP_FORBIDDEN);
         }
         $observation = new Observation();
@@ -25,6 +27,7 @@ class ObservationController extends Controller
         $observation->fill($request->query());
         $success = $observation->save();
         if (!$success) {
+            Log::debug("Meteobridge observation: Failed to save observation");
             return response("Failed to save observation", Response::HTTP_INTERNAL_SERVER_ERROR);
         }
         // Use 'updated_at' column as indication of last communication with
