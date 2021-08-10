@@ -4,7 +4,6 @@ namespace TromsFylkestrafikk\Meteobridge\Console;
 
 use Exception;
 use Illuminate\Console\Command;
-use Ramsey\Uuid\Uuid;
 use TromsFylkestrafikk\Meteobridge\Models\Station;
 
 class StationAdd extends Command
@@ -50,7 +49,7 @@ class StationAdd extends Command
         $this->info("Adding new weather station");
         $station = $this->aquireStationInfo();
         $station->save();
-        $this->info(sprintf("New station added with ID: %s", $station->id));
+        $this->info(sprintf("New station added with ID: %d", $station->id));
         if ($this->option('hash')) {
             $this->info(sprintf("Authentication hash: %s", $station->hash));
         }
@@ -84,7 +83,6 @@ class StationAdd extends Command
                 $confirmed = $this->confirmCreateIfExists($station);
             }
         }
-        $station->id =  Uuid::uuid4();
         if ($this->option('hash')) {
             $station->hash = sha1(uniqid("", true));
         }

@@ -53,7 +53,7 @@ class StationRehash extends Command
         }
         $station->hash = $this->option('remove') ? null : sha1(uniqid("", true));
         $station->save();
-        $this->info(sprintf("New authentication hash created for station %s (%s):", $station->id, $station->name));
+        $this->info(sprintf("New authentication hash created for station %d (%s):", $station->id, $station->name));
         $this->line($station->hash);
         return 0;
     }

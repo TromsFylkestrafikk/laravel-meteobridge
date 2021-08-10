@@ -83,6 +83,10 @@ It's recommended to use one of these intervals:
 
 This asserts aggregations not to overlap or miss data between requests.
 
+### Event handling
+
+
+
 ## Copying
 
 Laravel Meteobridge is free software: you can redistribute it and/or

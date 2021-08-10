@@ -49,7 +49,7 @@ class StationDelete extends Command
         }
         if (
             !$this->option('force') && !$this->confirm(sprintf(
-                "Really delete station '%s' with id %s",
+                "Really delete station '%s' with id %d",
                 $station->name,
                 $station->id
             ), false)
