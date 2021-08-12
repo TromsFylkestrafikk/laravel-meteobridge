@@ -35,4 +35,16 @@ class ObservationController extends Controller
         $station->touch();
         return response('Success');
     }
+
+    /**
+     * Get latest weather observation for given station
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function latest(Request $request, Station $station)
+    {
+        return response([
+            'observation' => $station->observations()->with('station')->orderByDesc('timestamp')->limit(1)->first()
+        ]);
+    }
 }
