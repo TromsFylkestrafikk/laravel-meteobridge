@@ -44,6 +44,7 @@ class ObservationController extends Controller
     public function latest(Request $request, Station $station)
     {
         return response([
+            'success' => true,
             'observation' => $station->observations()->with('station')->orderByDesc('timestamp')->limit(1)->first()
         ]);
     }
