@@ -28,7 +28,7 @@ class Observation extends Model
      * Get the channel the model should broadcast on.
      *
      * @param string $event
-     * @return array
+     * @return \Illuminate\Broadcasting\Channel
      */
     public function broadcastOn($event)
     {

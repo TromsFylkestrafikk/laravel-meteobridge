@@ -11,6 +11,7 @@ class Station extends Model
 
     protected $table = 'meteobridge_stations';
     protected $guarded = ['id'];
+    protected $hidden = ['ip', 'mac', 'hash'];
     protected $casts = [
         'created_at' => 'datetime:Y-m-d H:i:s',
         'updated_at' => 'datetime:Y-m-d H:i:s',
