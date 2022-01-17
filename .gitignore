@@ -1,13 +1,17 @@
 /composer.lock
+/package-lock.json
 /vendor
 
 # Code indexing and editor tools
-.ac-php-conf.json
+/.ac-php-conf.json
 .tern-port
 GPATH
 GRTAGS
 GTAGS
-.php_cs.cache
+/.php_cs.cache
+/.eslintcache
+/_ide_helper*
+/node_modules
 
 # Auto-generated files
 .log/

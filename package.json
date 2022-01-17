@@ -1,0 +1,23 @@
+{
+    "name": "laravel-meteobridge",
+    "version": "0.0.2-dev",
+    "description": "Laravel Meteobridge receiver",
+    "author": "Kåre Slettnes <kaare.slettnes@tffk.no>",
+    "license": "GPL-3.0-or-later",
+    "main": "index.js",
+    "homepage": "https://github.com/TromsFylkestrafikk/laravel-meteobridge#readme",
+    "scripts": {
+        "prepare": "husky install"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/TromsFylkestrafikk/laravel-meteobridge.git"
+    },
+    "bugs": {
+        "url": "https://github.com/TromsFylkestrafikk/laravel-meteobridge/issues"
+    },
+    "devDependencies": {
+        "husky": "^7.0.4",
+        "lint-staged": "^12.1.2"
+    }
+}
