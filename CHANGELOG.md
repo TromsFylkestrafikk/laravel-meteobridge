@@ -3,6 +3,7 @@
 ## [Unreleased]
 ### Added
 - Enforce coding style on commit
+- Support Laravel 9.x
 
 ## [0.1.0] 2021-11-17
 
